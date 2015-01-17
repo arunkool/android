@@ -117,12 +117,54 @@ public class PlayerStatisticsHelper extends SQLiteOpenHelper {
                 null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
+                sortOrder,                                 // The sort order
+                "10"
         );
 
         List<Player> playerList = new ArrayList<>();
         while (cursor.moveToNext()) {
-            long id = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerStatistics._ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(PlayerStatistics.PLAYER_NAME));
+            long wins = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerStatistics.PLAYER_WINS));
+            long losses = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerStatistics.PLAYER_LOSSES));
+            long movementsNum = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerStatistics.LAST_MOVEMENTS_NUM));
+            String elapsedTime = cursor.getString(cursor.getColumnIndexOrThrow(PlayerStatistics.LAST_GAME_TIME));
+            //Log.i("ROWS ----------> ", id + " - " + name + " - " + wins + " - " + losses + " - " + movementsNum + " - " + elapsedTime);
+            Player player = new Player(name, wins, losses, movementsNum, elapsedTime);
+            playerList.add(player);
+        }
+        return playerList;
+    }
+
+    public List<Player> readTopScores(PlayerStatisticsHelper helper) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                PlayerStatistics._ID,
+                PlayerStatistics.PLAYER_NAME,
+                PlayerStatistics.PLAYER_WINS,
+                PlayerStatistics.PLAYER_LOSSES,
+                PlayerStatistics.LAST_GAME_TIME,
+                PlayerStatistics.LAST_MOVEMENTS_NUM
+        };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder = PlayerStatistics.PLAYER_WINS + " DESC";
+
+        Cursor cursor = db.query(
+                PlayerStatistics.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder,                                 // The sort order
+                "5"
+        );
+
+        List<Player> playerList = new ArrayList<>();
+        while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndexOrThrow(PlayerStatistics.PLAYER_NAME));
             long wins = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerStatistics.PLAYER_WINS));
             long losses = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerStatistics.PLAYER_LOSSES));
