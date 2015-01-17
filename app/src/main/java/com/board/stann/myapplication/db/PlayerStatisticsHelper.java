@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.sql.SQLDataException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 15/01/2015.
@@ -91,7 +93,7 @@ public class PlayerStatisticsHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
-    public void readData(PlayerStatisticsHelper helper) {
+    public List<Player> readData(PlayerStatisticsHelper helper) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -118,6 +120,7 @@ public class PlayerStatisticsHelper extends SQLiteOpenHelper {
                 sortOrder                                 // The sort order
         );
 
+        List<Player> playerList = new ArrayList<>();
         while (cursor.moveToNext()) {
             long id = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerStatistics._ID));
             String name = cursor.getString(cursor.getColumnIndexOrThrow(PlayerStatistics.PLAYER_NAME));
@@ -125,10 +128,13 @@ public class PlayerStatisticsHelper extends SQLiteOpenHelper {
             long losses = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerStatistics.PLAYER_LOSSES));
             long movementsNum = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerStatistics.LAST_MOVEMENTS_NUM));
             String elapsedTime = cursor.getString(cursor.getColumnIndexOrThrow(PlayerStatistics.LAST_GAME_TIME));
-            Log.i("ROWS ----------> ", id + " - " + name + " - " + wins + " - " + losses + " - " + movementsNum + " - " + elapsedTime);
+            //Log.i("ROWS ----------> ", id + " - " + name + " - " + wins + " - " + losses + " - " + movementsNum + " - " + elapsedTime);
+            Player player = new Player(name, wins, losses, movementsNum, elapsedTime);
+            playerList.add(player);
         }
+        return playerList;
     }
-    {}
+
     public boolean checkIfPlayerExists(PlayerStatisticsHelper helper, String name) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
