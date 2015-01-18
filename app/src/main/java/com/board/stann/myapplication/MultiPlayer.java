@@ -417,6 +417,7 @@ public class MultiPlayer extends Activity implements OnClickListener {
             player1Won = false;
         } else {
             gameOver.setImageResource(R.drawable.gamedraw);//game draw
+            player1Won = movementsNumberP1 < movementsNumberP2 ? true : false;
         }
 
         gameOver.setVisibility(View.VISIBLE);

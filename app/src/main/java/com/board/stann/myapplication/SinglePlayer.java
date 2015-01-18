@@ -397,7 +397,8 @@ public class SinglePlayer extends Activity implements OnClickListener {
             score.setText("" + totalPlayer2);
             playerWon = false;
         } else {
-            //gameOver.setImageResource(R.drawable.gamedraw);//game draw
+            gameOver.setImageResource(R.drawable.gamedraw);
+            playerWon = false;
         }
         gameOver.setVisibility(View.VISIBLE);
         score.setVisibility(View.VISIBLE);
