@@ -18,6 +18,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".GameMechanics"
+            android:label="GameMechanics"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
             android:name=".MultiPlayer"
             android:label="Multiplayer"
             android:screenOrientation="landscape" >
@@ -33,11 +38,6 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".GameStatistics"
-            android:label="@string/title_activity_gamestatitics"
-            android:screenOrientation="landscape" >
-        </activity>
-        <activity
             android:name=".SavePlayer"
             android:label="@string/title_activity_save_player"
             android:screenOrientation="landscape" >
@@ -45,6 +45,11 @@
         <activity
             android:name=".SaveMultiplayer"
             android:label="@string/title_activity_save_multiplayer"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".GameStatistics"
+            android:label="@string/title_activity_gamestatitics"
             android:screenOrientation="landscape" >
         </activity>
     </application>

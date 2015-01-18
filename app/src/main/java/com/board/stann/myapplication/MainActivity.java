@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.statitics:
-                intent = new Intent(getApplicationContext(), SavePlayer.class);
+                intent = new Intent(getApplicationContext(), GameStatistics.class);
                 startActivity(intent);
                 break;
             case R.id.managemusic:
