@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -39,6 +40,7 @@ public class SinglePlayer extends Activity implements OnClickListener {
 
     private int player = 1;
     private int movementsNumber = 0;
+    private int cpuTrayLocation = 13;
     private int selectedDownPit[] = {0, 1, 2, 3, 4, 5};
     private int selectedUpPit[] = {7, 8, 9, 10, 11, 12};
 
@@ -57,35 +59,6 @@ public class SinglePlayer extends Activity implements OnClickListener {
             R.drawable.tray13, R.drawable.tray13, R.drawable.tray13, R.drawable.tray13, R.drawable.tray13, R.drawable.tray13};
 
     private static int[] board = new int[14];
-
-    public enum Players {
-        One((board.length - 2) / 2, board.length - 1), Two(board.length - 1,
-                (board.length - 2) / 2);
-
-        private int trayLocation;
-        private int traySkip;
-
-        Players(int location, int skip) {
-            trayLocation = location;
-            traySkip = skip;
-        }
-
-        int getTray() {
-            return board[trayLocation];
-        }
-
-        public void setTraySkip(int traySkip) {
-            this.traySkip = traySkip;
-        }
-
-        int getTrayLoc() {
-            return trayLocation;
-        }
-
-        int getSkip() {
-            return traySkip;
-        }
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -306,6 +279,10 @@ public class SinglePlayer extends Activity implements OnClickListener {
             else
                 pits[pitNo].setImageResource(stones[updatedStones]);
         }
+
+        MediaPlayer mp;
+        mp = MediaPlayer.create(SinglePlayer.this, R.raw.stonesound);
+        mp.start();
     }
 
     public boolean isItPossibleToCapture(int selectedPit, int selectedPitStones) {
@@ -532,8 +509,6 @@ public class SinglePlayer extends Activity implements OnClickListener {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Players computer = Players.Two;
-
                 List<Integer> boardStones = new ArrayList<>();
                 for (int i = 0; i < texts.length; i++) {
                     int pitStones = Integer.parseInt(texts[i].getText().toString());
@@ -543,7 +518,7 @@ public class SinglePlayer extends Activity implements OnClickListener {
                 // If any location lets us go again, return the first we find
                 for (int location : cpuValidLocations) {
                     if ((location + boardStones.get(location))
-                            % getBoard().length == computer.getTrayLoc()) {
+                            % getBoard().length == cpuTrayLocation) {
 
                         int pitId = getPitViewIdByPitLocation(location);
                         moveStones(pitId, location); return;
