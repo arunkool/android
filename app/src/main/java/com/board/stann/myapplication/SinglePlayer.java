@@ -400,6 +400,7 @@ public class SinglePlayer extends Activity implements OnClickListener {
             gameOver.setImageResource(R.drawable.gamedraw);
             playerWon = false;
         }
+
         gameOver.setVisibility(View.VISIBLE);
         score.setVisibility(View.VISIBLE);
         playAgain.setVisibility(View.VISIBLE);
